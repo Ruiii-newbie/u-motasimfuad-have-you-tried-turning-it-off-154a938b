@@ -1,31 +1,35 @@
 #!/usr/bin/env python3
-"""One-line IT-support joke (program/v1), revised.
+"""Have You Tried Turning It Off? -- one-line tech-support joke.
 
-Writes a single joke, spoken by a tech-support agent whose entire
-playbook is the classic "turn it off and on again" line, delivered with
-ever-growing confidence, to /output/entry.txt.
-Gate: 1-200 characters, one line, UTF-8.
+The entry is a single line a hopeless tech support agent says to a
+desperate customer. The agent follows his own classic advice himself,
+on the whole call center, and cheerfully destroys the very support
+the customer was calling.
+
+Structure: the classic line as the setup, the agent turning it on
+himself (twist one: the whole call center, not the customer's PC),
+and the kicker (twist two: there is nobody left to answer). The
+customer is never the butt of it -- the agent's cheerful uselessness
+is the joke.
 """
+
 import os
 
-LINE = (
-    "Have you tried turning it off and on again? My entire troubleshooting "
-    "playbook is that one sentence, repeated with steadily increasing "
-    "confidence until you hang up."
+JOKE = (
+    "Have you tried turning it off and on again? I just did, and the "
+    "whole call center went dark, so if we get cut off, don't call back. "
+    "There's nobody left to answer."
 )
 
-MAX_CHARS = 200
+# The house gate accepts 1-199 characters; the playbook target is 120-200.
+assert 1 <= len(JOKE) <= 199, f"entry is {len(JOKE)} chars, outside the gate"
 
 
 def main() -> None:
-    line = LINE.strip()
-    assert line, "entry must not be empty"
-    assert "\n" not in line, "entry must be a single line"
-    assert len(line) <= MAX_CHARS, f"entry is {len(line)} chars, over {MAX_CHARS}"
-    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
-    os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as f:
-        f.write(line)
+    os.makedirs("/output", exist_ok=True)
+    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+        f.write(JOKE)
+    print(JOKE)
 
 
 if __name__ == "__main__":
